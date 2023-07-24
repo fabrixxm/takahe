@@ -3,7 +3,7 @@ from functools import partial
 from django.db import models
 
 from core.uploads import upload_namer
-from core.uris import ProxyAbsoluteUrl, RelativeAbsoluteUrl
+from core.uris import ProxyAbsoluteUrl, RelativeAbsoluteUrl, AutoAbsoluteUrl
 from stator.models import State, StateField, StateGraph, StatorModel
 
 
@@ -81,11 +81,11 @@ class PostAttachment(StatorModel):
             "video/webm",
         ]
 
-    def thumbnail_url(self) -> RelativeAbsoluteUrl:
+    def thumbnail_url(self):
         if self.thumbnail:
-            return RelativeAbsoluteUrl(self.thumbnail.url)
+            return AutoAbsoluteUrl(self.thumbnail.url)
         elif self.file:
-            return RelativeAbsoluteUrl(self.file.url)
+            return AutoAbsoluteUrl(self.file.url)
         else:
             return ProxyAbsoluteUrl(
                 f"/proxy/post_attachment/{self.pk}/",
@@ -94,7 +94,7 @@ class PostAttachment(StatorModel):
 
     def full_url(self):
         if self.file:
-            return RelativeAbsoluteUrl(self.file.url)
+            return AutoAbsoluteUrl(self.file.url)
         if self.is_image():
             return ProxyAbsoluteUrl(
                 f"/proxy/post_attachment/{self.pk}/",
