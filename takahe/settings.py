@@ -85,7 +85,7 @@ class Settings(BaseSettings):
     CORS_HOSTS: list[str] = Field(default_factory=list)
 
     #: If set, a list of hosts to accept for CSRF.
-    CSRF_HOSTS: list[str] = Field(default_factory=list)
+    CSRF_TRUSTED_ORIGINS: list[str] = Field(default_factory=list)
 
     #: If enabled, trust the HTTP_X_FORWARDED_FOR header.
     USE_PROXY_HEADERS: bool = False
@@ -341,7 +341,7 @@ CORS_EXPOSE_HEADERS = ("link",)
 
 JSONLD_MAX_SIZE = 1024 * 50  # 50 KB
 
-CSRF_TRUSTED_ORIGINS = SETUP.CSRF_HOSTS
+CSRF_TRUSTED_ORIGINS = SETUP.CSRF_TRUSTED_ORIGINS
 
 MEDIA_URL = SETUP.MEDIA_URL
 MEDIA_ROOT = SETUP.MEDIA_ROOT
